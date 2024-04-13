@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbluqei2lxv24"]
+
+[ext_resource type="Texture2D" uid="uid://bltyh7l7q8ftu" path="res://sprites/tiles/45.png" id="1_q76ab"]
+
+[node name="StaticBody2D" type="StaticBody2D"]
+collision_layer = 3
+
+[node name="45" type="Sprite2D" parent="."]
+texture = ExtResource("1_q76ab")
+flip_h = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-32, 32, -32, -32, 32, 32)

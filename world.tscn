@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdnuk1saqn8b6"]
+
+[ext_resource type="Texture2D" uid="uid://b6m6fvqm6twgt" path="res://icon.svg" id="1_8rdr6"]
+[ext_resource type="PackedScene" uid="uid://bfv4vemmcuhou" path="res://playable_characters/player.tscn" id="2_16y2p"]
+[ext_resource type="PackedScene" uid="uid://b4qfnjkut0tti" path="res://objects/environment/default_slope_45.tscn" id="3_on5pt"]
+[ext_resource type="PackedScene" uid="uid://cbluqei2lxv24" path="res://objects/environment/default_slope_135.tscn" id="4_6dj6u"]
+[ext_resource type="PackedScene" uid="uid://bhh56cuxbw0rp" path="res://objects/environment/default_long_slope_60.tscn" id="5_qaqhl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yaijp"]
+size = Vector2(128, 128)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Terrain" type="Node2D" parent="."]
+
+[node name="StaticBody2D2" parent="Terrain" instance=ExtResource("3_on5pt")]
+position = Vector2(807, 472)
+
+[node name="StaticBody2D5" parent="Terrain" instance=ExtResource("3_on5pt")]
+position = Vector2(871, 408)
+
+[node name="StaticBody2D9" parent="Terrain" instance=ExtResource("3_on5pt")]
+position = Vector2(999, 217)
+
+[node name="StaticBody2D3" parent="Terrain" instance=ExtResource("4_6dj6u")]
+position = Vector2(225, 473)
+
+[node name="StaticBody2D6" parent="Terrain" instance=ExtResource("5_qaqhl")]
+position = Vector2(935, 313)
+
+[node name="StaticBody2D8" parent="Terrain" instance=ExtResource("5_qaqhl")]
+position = Vector2(161, 377)
+scale = Vector2(-1, 1)
+
+[node name="StaticBody2D7" parent="Terrain" instance=ExtResource("5_qaqhl")]
+position = Vector2(83, 217)
+scale = Vector2(0.5, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(641, 568)
+scale = Vector2(10, 1)
+texture = ExtResource("1_8rdr6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(641, 568)
+scale = Vector2(10, 1)
+shape = SubResource("RectangleShape2D_yaijp")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(526, 251)
+rotation = -1.5708
+collision_layer = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(641, 568)
+scale = Vector2(10, 1)
+texture = ExtResource("1_8rdr6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(641, 568)
+scale = Vector2(10, 1)
+shape = SubResource("RectangleShape2D_yaijp")
+
+[node name="Player" parent="." instance=ExtResource("2_16y2p")]
+position = Vector2(581, 506)
+scale = Vector2(3, 3)
