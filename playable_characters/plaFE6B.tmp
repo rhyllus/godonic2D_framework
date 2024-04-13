@@ -201,8 +201,9 @@ size = Vector2(20, 28)
 script = ExtResource("1_herpq")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+floor_stop_on_slope = false
 floor_max_angle = 1.56905
-floor_snap_length = 0.0
+floor_snap_length = 200.0
 
 [node name="SpriteCenter" type="Node2D" parent="CharacterBody2D"]
 
@@ -229,26 +230,14 @@ position = Vector2(0, -14)
 
 [node name="LeftDown" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
 modulate = Color(0.317647, 0.0823529, 0.890196, 1)
-position = Vector2(-11, 0)
-target_position = Vector2(0, 16)
-collision_mask = 2
-
-[node name="LeftDownSnap" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
-modulate = Color(0.317647, 0.0823529, 0.890196, 1)
 position = Vector2(-10, 0)
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 16)
 collision_mask = 2
 
 [node name="RightDown" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
 modulate = Color(0.317647, 0.0823529, 0.890196, 1)
-position = Vector2(11, 0)
-target_position = Vector2(0, 16)
-collision_mask = 2
-
-[node name="RightDownSnap" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
-modulate = Color(0.317647, 0.0823529, 0.890196, 1)
 position = Vector2(10, 0)
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 16)
 collision_mask = 2
 
 [node name="RightWall" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
