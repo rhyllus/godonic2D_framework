@@ -38,12 +38,12 @@ func wall_velocity_management():
 		player_X_velocity = 0
 
 func snap():
-	var snap_vector : Vector2
-	if left.is_colliding():
+	var snap_vector := Vector2.ZERO
+	if left_snap.is_colliding() and not right.is_colliding():
 		snap_vector = left_snap.get_collision_point() - sprt_left.global_position
-	else:
+	elif right_snap.is_colliding() and not left.is_colliding():
 		snap_vector = right_snap.get_collision_point() - sprt_right.global_position
-	snap_velocity = snap_vector * get_process_delta_time() * 1000
+	snap_velocity = snap_vector * get_process_delta_time() * 5000
 
 func sprite_flip():
 	if horizontal_input != 0:
