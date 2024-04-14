@@ -48,6 +48,24 @@ position = Vector2(999, 216)
 [node name="StaticBody2D6" parent="Terrain2" instance=ExtResource("5_qaqhl")]
 position = Vector2(935, 312)
 
+[node name="Terrain3" type="Node2D" parent="."]
+
+[node name="StaticBody2D" parent="Terrain3" instance=ExtResource("3_on5pt")]
+position = Vector2(-690, 281)
+scale = Vector2(-1, 1)
+
+[node name="StaticBody2D3" parent="Terrain3" instance=ExtResource("3_on5pt")]
+position = Vector2(-754, -269)
+scale = Vector2(-1, -1)
+
+[node name="StaticBody2D2" parent="Terrain3" instance=ExtResource("5_qaqhl")]
+position = Vector2(-754, 185)
+scale = Vector2(-1, 1)
+
+[node name="StaticBody2D4" parent="Terrain3" instance=ExtResource("5_qaqhl")]
+position = Vector2(-690, -365)
+scale = Vector2(-1, -1)
+
 [node name="Blocks" type="Node2D" parent="."]
 position = Vector2(-859, 1436)
 rotation = -1.5708
@@ -82,6 +100,21 @@ position = Vector2(641, 568)
 scale = Vector2(10, 1)
 shape = SubResource("RectangleShape2D_yaijp")
 
+[node name="StaticBody2D6" type="StaticBody2D" parent="Blocks"]
+position = Vector2(2497, -669.991)
+rotation = 1.5708
+collision_layer = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Blocks/StaticBody2D6"]
+position = Vector2(641, 568)
+scale = Vector2(10, 1)
+texture = ExtResource("1_8rdr6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Blocks/StaticBody2D6"]
+position = Vector2(641, 568)
+scale = Vector2(10, 1)
+shape = SubResource("RectangleShape2D_yaijp")
+
 [node name="StaticBody2D4" type="StaticBody2D" parent="Blocks"]
 position = Vector2(1627, -292.994)
 rotation = 1.5708
@@ -112,6 +145,7 @@ scale = Vector2(10, 1)
 shape = SubResource("RectangleShape2D_yaijp")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="Blocks"]
+position = Vector2(837.002, -558.997)
 collision_layer = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="Blocks/StaticBody2D3"]

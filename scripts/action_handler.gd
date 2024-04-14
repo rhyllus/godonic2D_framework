@@ -1,8 +1,8 @@
 extends ActionHandlerTools
 class_name ActionHandler
 
-@export var max_velocity := 100000
-@export var acceleration := 1000
+@export var max_velocity := 2000
+@export var acceleration := 1500
 @export var deceleration := 2000
 @onready var normal := Vector2(0, -1)
 
@@ -17,6 +17,9 @@ func velocity_rotated(x_vel : int):
 func horizontal_movement(delta):
 	player_X_velocity = player_X_velocity + (acceleration * delta * horizontal_input)
 	player_X_velocity = clampf(player_X_velocity, -max_velocity, max_velocity)
+	if abs(player_X_velocity) == max_velocity:
+		state = States.RUN
+		animation_player.play("run")
 	wall_velocity_management()
 	angle_calc()
 	player.velocity = velocity_rotated(player_X_velocity) + snap_velocity
@@ -27,7 +30,7 @@ func decelerate(delta):
 	if player_X_velocity == 0:
 		state = States.IDLE
 		animation_player.play("idle")
-		player.velocity = Vector2.ZERO + snap_velocity
+		player.velocity = Vector2.ZERO
 	else:
 		player.velocity = velocity_rotated(player_X_velocity) + snap_velocity
 	angle_calc()

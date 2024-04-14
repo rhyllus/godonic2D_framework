@@ -37,13 +37,9 @@ func state_update():
 	horizontal_input = Input.get_axis("left", "right")
 	if ground_check():
 		if state == States.AIR or state == States.AIR_BALL:
-			if horizontal_input != 0.0:
-				if player_X_velocity > 10000:
-					state = States.RUN
-					animation_player.play("run")
-				else:
-					state = States.WALK
-					animation_player.play("walk")
+			if player.velocity.x != 0.0:
+				state = States.WALK
+				animation_player.play("walk")
 			else:
 				state = States.IDLE
 				animation_player.play("idle")
