@@ -8,25 +8,42 @@ class_name ActionHandlerTools
 
 var sprite_flipped := false
 var snap_velocity := Vector2.ZERO
+var angle := 0.0
 
-func angle_calc():
-	var angle := 0.0
+func get_angle():
 	if left.is_colliding():
 		last_normal = left.get_collision_normal()
 		if right.is_colliding() and (snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == snapped(PI, 0.01)):
 			sprite.global_position = sprt_center.global_position
 		else:
 			sprite.global_position = sprt_left.global_position
-		angle = last_normal.angle_to(Vector2(0, -1))
-		sprite.rotation = -angle
-	else:
+		return true
+	elif right.is_colliding():
 		last_normal = right.get_collision_normal()
 		if left.is_colliding() and (snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == snapped(PI, 0.01)):
 			sprite.global_position = sprt_center.global_position
 		else:
 			sprite.global_position = sprt_right.global_position
+		return true
+	return false
+
+func angle_calc():
+	angle = 0.0
+	if get_angle():
 		angle = last_normal.angle_to(Vector2(0, -1))
 		sprite.rotation = -angle
+	else:
+		left.target_position.y = 25
+		right.target_position.y = 25
+		left.force_raycast_update()
+		right.force_raycast_update()
+		if get_angle():
+			angle = last_normal.angle_to(Vector2(0, -1))
+			sprite.rotation = -angle
+		left.target_position.y = 15
+		right.target_position.y = 15
+		left.force_raycast_update()
+		right.force_raycast_update()
 	if angle == 0.0:
 		sprite.global_position = sprt_center.global_position
 	return angle

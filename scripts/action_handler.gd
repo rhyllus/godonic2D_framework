@@ -27,7 +27,7 @@ func decelerate(delta):
 	if player_X_velocity == 0:
 		state = States.IDLE
 		animation_player.play("idle")
-		player.velocity = Vector2.ZERO
+		player.velocity = Vector2.ZERO + snap_velocity
 	else:
 		player.velocity = velocity_rotated(player_X_velocity) + snap_velocity
 	angle_calc()
