@@ -201,8 +201,9 @@ size = Vector2(20, 28)
 script = ExtResource("1_herpq")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+floor_stop_on_slope = false
 floor_max_angle = 1.56905
-floor_snap_length = 5.0
+floor_snap_length = 200.0
 
 [node name="SpriteCenter" type="Node2D" parent="CharacterBody2D"]
 
@@ -230,25 +231,13 @@ position = Vector2(0, -14)
 [node name="LeftDown" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
 modulate = Color(0.317647, 0.0823529, 0.890196, 1)
 position = Vector2(-10, 0)
-target_position = Vector2(0, 15)
-collision_mask = 2
-
-[node name="LeftDownSnap" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
-modulate = Color(0.317647, 0.0823529, 0.890196, 1)
-position = Vector2(-10, 0)
-target_position = Vector2(0, 35)
+target_position = Vector2(0, 16)
 collision_mask = 2
 
 [node name="RightDown" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
 modulate = Color(0.317647, 0.0823529, 0.890196, 1)
 position = Vector2(10, 0)
-target_position = Vector2(0, 15)
-collision_mask = 2
-
-[node name="RightDownSnap" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
-modulate = Color(0.317647, 0.0823529, 0.890196, 1)
-position = Vector2(10, 0)
-target_position = Vector2(0, 35)
+target_position = Vector2(0, 16)
 collision_mask = 2
 
 [node name="RightWall" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
@@ -277,19 +266,16 @@ collision_mask = 2
 position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_lsm25")
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-
-[node name="SpriteSnap" type="Node2D" parent="CharacterBody2D"]
-position = Vector2(0, -14)
-
-[node name="SpriteSnapCenter" type="Node2D" parent="CharacterBody2D/SpriteSnap"]
+[node name="SpriteSnapCenter" type="Node2D" parent="CharacterBody2D/CollisionShape2D"]
 position = Vector2(0, 14)
 
-[node name="SpriteSnapRight" type="Node2D" parent="CharacterBody2D/SpriteSnap"]
+[node name="SpriteSnapRight" type="Node2D" parent="CharacterBody2D/CollisionShape2D"]
 position = Vector2(10, 14)
 
-[node name="SpriteSnapLeft" type="Node2D" parent="CharacterBody2D/SpriteSnap"]
+[node name="SpriteSnapLeft" type="Node2D" parent="CharacterBody2D/CollisionShape2D"]
 position = Vector2(-10, 14)
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_147ld")

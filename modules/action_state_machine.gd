@@ -1,8 +1,8 @@
 extends Node
 class_name ActionStateMachine
 
-enum States {HURT, IDLE, DECEL, WALK, RUN,
-			 SPINDASH, PEEL_OUT, POST_PEEL_OUT, ROLL,
+enum States {HURT, IDLE, DECEL, WALK, RUN, ROLL,
+			 SPINDASH, PEEL_OUT, POST_PEEL_OUT,
 			 AIR_BALL, AIR}
 enum GroundDirections {UP, DOWN, LEFT, RIGHT}
 @onready var state := States.AIR
@@ -12,10 +12,13 @@ enum GroundDirections {UP, DOWN, LEFT, RIGHT}
 @export var sprite : Node2D
 @onready var animation_player : AnimationPlayer = sprite.get_node("Sprite2D").get_node("AnimationPlayer")
 
-@onready var left = player.get_node("Raycasts").get_node("LeftDown")
-@onready var right = player.get_node("Raycasts").get_node("RightDown")
-@onready var right_wall = player.get_node("Raycasts").get_node("RightWall")
-@onready var left_wall = player.get_node("Raycasts").get_node("LeftWall")
+@onready var raycasts = player.get_node("Raycasts")
+@onready var left = raycasts.get_node("LeftDown")
+@onready var left_snap = raycasts.get_node("LeftDownSnap")
+@onready var right = raycasts.get_node("RightDown")
+@onready var right_snap = raycasts.get_node("RightDownSnap")
+@onready var right_wall = raycasts.get_node("RightWall")
+@onready var left_wall = raycasts.get_node("LeftWall")
 
 signal wall_hit
 
@@ -30,41 +33,13 @@ func ground_check():
 	if left.is_colliding() or right.is_colliding():
 		return true
 
-func snap():
-	pass
-		
-func angle_calc():
-	var angle := 0.0
-	if left.is_colliding() and right.is_colliding():
-		sprite.rotation = 0
-		sprite.position = Vector2.ZERO
-		return angle
-	elif left.is_colliding():
-		sprite.position = Vector2(-10, 0)
-		last_normal = left.get_collision_normal()
-		angle = last_normal.angle_to(Vector2(0, -1))
-		sprite.rotation = -angle
-	else:
-		sprite.position = Vector2(10, 0)
-		last_normal = right.get_collision_normal()
-		angle = last_normal.angle_to(Vector2(0, -1))
-		sprite.rotation = -angle
-	if angle == 0.0:
-		sprite.position = Vector2.ZERO
-	return angle
-
 func state_update():
 	horizontal_input = Input.get_axis("left", "right")
 	if ground_check():
-		player.apply_floor_snap()
 		if state == States.AIR or state == States.AIR_BALL:
-			if horizontal_input != 0.0:
-				if player_X_velocity > 10000:
-					state = States.RUN
-					animation_player.play("run")
-				else:
-					state = States.WALK
-					animation_player.play("walk")
+			if player.velocity.x != 0.0:
+				state = States.WALK
+				animation_player.play("walk")
 			else:
 				state = States.IDLE
 				animation_player.play("idle")
@@ -79,7 +54,5 @@ func state_update():
 				state = States.WALK
 				animation_player.play("walk")
 	else:
-		player.apply_floor_snap()
-		left.force_raycast_update()
-		right.force_raycast_update()
+		pass
 		#state = States.AIR

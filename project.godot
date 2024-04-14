@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="SoniRush"
+config/name="godonic2D"
 run/main_scene="res://world.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_width"
 
 [dotnet]
 

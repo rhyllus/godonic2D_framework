@@ -7,7 +7,7 @@ extends Node2D
 func _physics_process(delta):
 	state_machine.update_all(delta)
 	player.move_and_slide()
-	queue_redraw()
+	#queue_redraw()
 	
 func _draw():
 	var player_position := Vector2(player.position)
