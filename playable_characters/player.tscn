@@ -202,7 +202,7 @@ script = ExtResource("1_herpq")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 floor_max_angle = 1.56905
-floor_snap_length = 0.0
+floor_snap_length = 5.0
 
 [node name="SpriteCenter" type="Node2D" parent="CharacterBody2D"]
 
@@ -277,16 +277,19 @@ collision_mask = 2
 position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_lsm25")
 
-[node name="SpriteSnapCenter" type="Node2D" parent="CharacterBody2D/CollisionShape2D"]
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+
+[node name="SpriteSnap" type="Node2D" parent="CharacterBody2D"]
+position = Vector2(0, -14)
+
+[node name="SpriteSnapCenter" type="Node2D" parent="CharacterBody2D/SpriteSnap"]
 position = Vector2(0, 14)
 
-[node name="SpriteSnapRight" type="Node2D" parent="CharacterBody2D/CollisionShape2D"]
+[node name="SpriteSnapRight" type="Node2D" parent="CharacterBody2D/SpriteSnap"]
 position = Vector2(10, 14)
 
-[node name="SpriteSnapLeft" type="Node2D" parent="CharacterBody2D/CollisionShape2D"]
+[node name="SpriteSnapLeft" type="Node2D" parent="CharacterBody2D/SpriteSnap"]
 position = Vector2(-10, 14)
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_147ld")

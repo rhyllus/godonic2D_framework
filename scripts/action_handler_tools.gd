@@ -2,9 +2,10 @@ extends ActionStateMachine
 class_name ActionHandlerTools
 
 @onready var collider = player.get_node("CollisionShape2D")
-@onready var sprt_center = collider.get_node("SpriteSnapCenter")
-@onready var sprt_left = collider.get_node("SpriteSnapLeft")
-@onready var sprt_right = collider.get_node("SpriteSnapRight")
+@onready var sprt_snap = player.get_node("SpriteSnap")
+@onready var sprt_center = sprt_snap.get_node("SpriteSnapCenter")
+@onready var sprt_left = sprt_snap.get_node("SpriteSnapLeft")
+@onready var sprt_right = sprt_snap.get_node("SpriteSnapRight")
 
 var sprite_flipped := false
 var snap_velocity := Vector2.ZERO
@@ -13,14 +14,18 @@ var angle := 0.0
 func get_angle():
 	if left.is_colliding():
 		last_normal = left.get_collision_normal()
-		if right.is_colliding() and (snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == snapped(PI, 0.01)):
+		if snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == snapped(PI, 0.01):
+			sprite.global_position = sprt_center.global_position
+		elif snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == 0.0:
 			sprite.global_position = sprt_center.global_position
 		else:
 			sprite.global_position = sprt_left.global_position
 		return true
 	elif right.is_colliding():
 		last_normal = right.get_collision_normal()
-		if left.is_colliding() and (snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == snapped(PI, 0.01)):
+		if snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == snapped(PI, 0.01):
+			sprite.global_position = sprt_center.global_position
+		elif snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == 0.0:
 			sprite.global_position = sprt_center.global_position
 		else:
 			sprite.global_position = sprt_right.global_position
@@ -44,8 +49,6 @@ func angle_calc():
 		right.target_position.y = 15
 		left.force_raycast_update()
 		right.force_raycast_update()
-	if angle == 0.0:
-		sprite.global_position = sprt_center.global_position
 	return angle
 
 func wall_velocity_management():
@@ -60,7 +63,7 @@ func snap():
 		snap_vector = left_snap.get_collision_point() - sprt_left.global_position
 	elif right_snap.is_colliding() and not left.is_colliding():
 		snap_vector = right_snap.get_collision_point() - sprt_right.global_position
-	snap_velocity = snap_vector * get_process_delta_time() * 15000
+	snap_velocity = snap_vector * get_process_delta_time() * 10000
 
 func sprite_flip():
 	if horizontal_input != 0:
@@ -76,19 +79,28 @@ func flip_gravity():
 		raycasts.rotation_degrees = -90
 		raycasts.position.x = -5
 		collider.position.x = -5
-		collider.rotation_degrees = -90
+		sprt_snap.position.x = -5
+		collider.shape.size.y = 20
+		collider.shape.size.x = 28
+		sprt_snap.rotation_degrees = -90
 		player.up_direction = Vector2.RIGHT
 	elif ground_direction == GroundDirections.LEFT:
 		raycasts.rotation_degrees = 90
 		raycasts.position.x = 5
 		collider.position.x = 5
-		collider.rotation_degrees = 90
-		player.up_direction = Vector2.RIGHT
+		sprt_snap.position.x = 5
+		collider.shape.size.y = 20
+		collider.shape.size.x = 28
+		sprt_snap.rotation_degrees = 90
+		player.up_direction = Vector2.LEFT
 	elif ground_direction == GroundDirections.DOWN:
 		raycasts.rotation_degrees = 0
 		raycasts.position.x = 0
 		collider.position.x = 0
-		collider.rotation_degrees = 0
+		sprt_snap.position.x = 0
+		collider.shape.size.y = 28
+		collider.shape.size.x = 20
+		sprt_snap.rotation_degrees = 0
 		player.up_direction = Vector2.DOWN
 	elif ground_direction == GroundDirections.UP:
 		if raycasts.rotation_degrees == -90:
@@ -97,7 +109,10 @@ func flip_gravity():
 			raycasts.rotation_degrees = 180
 		raycasts.position.x = 0
 		collider.position.x = 0
-		collider.rotation_degrees = -180
+		sprt_snap.position.x = 0
+		collider.shape.size.y = 28
+		collider.shape.size.x = 20
+		sprt_snap.rotation_degrees = -180
 		player.up_direction = Vector2.UP
 	for i in raycasts.get_children():
 		i.force_raycast_update()
