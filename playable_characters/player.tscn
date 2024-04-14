@@ -204,24 +204,24 @@ script = ExtResource("1_herpq")
 floor_max_angle = 1.56905
 floor_snap_length = 5.0
 
-[node name="SpriteCenter" type="Node2D" parent="CharacterBody2D"]
+[node name="SpritePivot" type="Node2D" parent="CharacterBody2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/SpriteCenter"]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/SpritePivot"]
 position = Vector2(-12, -32)
 texture = ExtResource("2_b2dp8")
 centered = false
 region_enabled = true
 region_rect = Rect2(18, 31, 23, 33)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D/SpriteCenter/Sprite2D"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D/SpritePivot/Sprite2D"]
 libraries = {
 "": SubResource("AnimationLibrary_lj7up")
 }
 
-[node name="ForwardOrigin" type="Node2D" parent="CharacterBody2D/SpriteCenter"]
+[node name="ForwardOrigin" type="Node2D" parent="CharacterBody2D/SpritePivot"]
 position = Vector2(0, -14)
 
-[node name="Forward" type="Node2D" parent="CharacterBody2D/SpriteCenter"]
+[node name="Forward" type="Node2D" parent="CharacterBody2D/SpritePivot"]
 position = Vector2(1, -14)
 
 [node name="Raycasts" type="Node2D" parent="CharacterBody2D"]
@@ -297,6 +297,6 @@ script = ExtResource("2_147ld")
 [node name="ActionStateMachine" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("4_1nlkt")
 player = NodePath("../../CharacterBody2D")
-sprite = NodePath("../../CharacterBody2D/SpriteCenter")
+sprite = NodePath("../../CharacterBody2D/SpritePivot")
 
 [connection signal="wall_hit" from="StateMachine/ActionStateMachine" to="StateMachine/ActionStateMachine" method="_on_wall_hit"]
