@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://bfv4vemmcuhou"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_herpq"]
-[ext_resource type="Script" path="res://modules/state_machine.gd" id="2_147ld"]
+[ext_resource type="Script" path="res://state_machines/state_machine.gd" id="2_147ld"]
 [ext_resource type="Texture2D" uid="uid://di4um16104k20" path="res://sprites/player/6583.png" id="2_b2dp8"]
-[ext_resource type="Script" path="res://scripts/action_handler.gd" id="4_1nlkt"]
+[ext_resource type="Script" path="res://state_machines/action_state_machine/action_handler.gd" id="4_1nlkt"]
 
 [sub_resource type="Animation" id="Animation_x8te7"]
 resource_name = "ball"

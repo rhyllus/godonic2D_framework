@@ -1,4 +1,4 @@
-extends ActionHandlerTools
+extends CollisionUtilities
 class_name ActionHandler
 
 @export var max_velocity := 2000
@@ -61,4 +61,22 @@ func update(delta):
 		hurt()
 		
 func _on_wall_hit():
-	on_wall_hit()
+	var angle_diff := 0.0
+	var right_wall_colliding = right_wall.is_colliding()
+	if state == States.RUN or state == States.WALK or state == States.DECEL:
+		if right_wall_colliding:
+			angle_diff = last_normal.angle_to(right_wall.get_collision_normal())
+		else:
+			angle_diff = last_normal.angle_to(left_wall.get_collision_normal())
+		if abs(rad_to_deg(angle_diff)) < 85:
+			if right_wall_colliding:
+				if ground_direction == GroundDirections.UP:
+					ground_direction = GroundDirections.LEFT
+				else:
+					ground_direction = GroundDirections[GroundDirections.keys()[ground_direction + 1]]
+			else:
+				if ground_direction == GroundDirections.LEFT:
+					ground_direction = GroundDirections.UP
+				else:
+					ground_direction = GroundDirections[GroundDirections.keys()[ground_direction - 1]]
+			flip_gravity()
