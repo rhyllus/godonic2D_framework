@@ -6,7 +6,7 @@ class_name ActionHandler
 @export var deceleration := 2000
 @onready var normal := Vector2(0, -1)
 
-func velocity_rotate(x_vel : int):
+func velocity_rotate(x_vel : float):
 	var direction = (forward.global_position - forward_origin.global_position).normalized()
 	if sprite_flipped:
 		direction = -direction

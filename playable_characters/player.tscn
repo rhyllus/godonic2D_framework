@@ -230,13 +230,13 @@ position = Vector2(0, -14)
 [node name="LeftFloor" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
 modulate = Color(0.317647, 0.0823529, 0.890196, 1)
 position = Vector2(-10, 0)
-target_position = Vector2(0, 15)
+target_position = Vector2(0, 14.5)
 collision_mask = 2
 
 [node name="RightFloor" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
 modulate = Color(0.317647, 0.0823529, 0.890196, 1)
 position = Vector2(10, 0)
-target_position = Vector2(0, 15)
+target_position = Vector2(0, 14.5)
 collision_mask = 2
 
 [node name="LeftSnap" type="RayCast2D" parent="CharacterBody2D/Raycasts"]

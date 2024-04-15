@@ -41,6 +41,7 @@ func ground_collision():
 		collision_angle = last_normal.angle_to(Vector2(0, -1))
 		sprite.rotation = -collision_angle
 	else:
+		var old_pos := Vector2(left.target_position.y, right.target_position.y)
 		left.target_position.y = 25
 		right.target_position.y = 25
 		left.force_raycast_update()
@@ -48,8 +49,8 @@ func ground_collision():
 		if is_ground_ray_collision_successful():
 			collision_angle = last_normal.angle_to(Vector2(0, -1))
 			sprite.rotation = -collision_angle
-		left.target_position.y = 15
-		right.target_position.y = 15
+		left.target_position.y = old_pos.x
+		right.target_position.y = old_pos.y
 		left.force_raycast_update()
 		right.force_raycast_update()
 	return
@@ -67,8 +68,11 @@ func snap():
 	elif right_snap.is_colliding() and not left.is_colliding():
 		snap_vector = right_snap.get_collision_point() - sprt_right.global_position
 	else:
-		snap_vector = center_snap.get_collision_point() - sprt_center.global_position
-	snap_velocity = snap_vector * get_process_delta_time() * 10000
+		if player_X_velocity > 0.0:
+			snap_vector = left_snap.get_collision_point() - sprt_left.global_position
+		elif player_X_velocity < 0.0:
+			snap_vector = right_snap.get_collision_point() - sprt_right.global_position
+	snap_velocity = snap_vector * get_process_delta_time() * 5000
 
 func sprite_flip():
 	if horizontal_input != 0:
@@ -135,10 +139,10 @@ func on_wall_hit():
 				if ground_direction == GroundDirections.UP:
 					ground_direction = GroundDirections.LEFT
 				else:
-					ground_direction += 1
+					ground_direction = GroundDirections[GroundDirections.keys()[ground_direction + 1]]
 			else:
 				if ground_direction == GroundDirections.LEFT:
 					ground_direction = GroundDirections.UP
 				else:
-					ground_direction -= 1
+					ground_direction = GroundDirections[GroundDirections.keys()[ground_direction - 1]]
 			flip_gravity()
