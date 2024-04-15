@@ -202,7 +202,7 @@ script = ExtResource("1_herpq")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 floor_max_angle = 1.56905
-floor_snap_length = 5.0
+floor_snap_length = 0.0
 
 [node name="SpritePivot" type="Node2D" parent="CharacterBody2D"]
 

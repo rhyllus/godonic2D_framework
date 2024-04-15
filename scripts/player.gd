@@ -2,7 +2,6 @@ extends Node2D
 
 @onready var player = $CharacterBody2D
 @onready var state_machine = $StateMachine
-@onready var action_state_machine
 
 func _physics_process(delta):
 	state_machine.update_all(delta)

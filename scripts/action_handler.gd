@@ -6,9 +6,7 @@ class_name ActionHandler
 @export var deceleration := 2000
 @onready var normal := Vector2(0, -1)
 
-func velocity_rotated(x_vel : int):
-	var forward = sprite.get_node("Forward")
-	var forward_origin = sprite.get_node("ForwardOrigin")
+func velocity_rotate(x_vel : int):
 	var direction = (forward.global_position - forward_origin.global_position).normalized()
 	if sprite_flipped:
 		direction = -direction
@@ -20,20 +18,20 @@ func horizontal_movement(delta):
 	if abs(player_X_velocity) == max_velocity:
 		state = States.RUN
 		animation_player.play("run")
-	wall_velocity_management()
-	angle_calc()
-	player.velocity = velocity_rotated(player_X_velocity) + snap_velocity
+	manage_wall_velocity()
+	ground_collision()
+	player.velocity = velocity_rotate(player_X_velocity) + snap_velocity
 
 func decelerate(delta):
-	wall_velocity_management()
 	player_X_velocity = move_toward(player_X_velocity, 0, deceleration * delta)
+	manage_wall_velocity()
 	if player_X_velocity == 0:
 		state = States.IDLE
 		animation_player.play("idle")
 		player.velocity = Vector2.ZERO
 	else:
-		player.velocity = velocity_rotated(player_X_velocity) + snap_velocity
-	angle_calc()
+		ground_collision()
+		player.velocity = velocity_rotate(player_X_velocity) + snap_velocity
 
 func roll():
 	pass

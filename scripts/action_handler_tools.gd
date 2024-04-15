@@ -1,7 +1,11 @@
 extends ActionStateMachine
 class_name ActionHandlerTools
 
-@onready var collider = player.get_node("CollisionShape2D")
+@onready var hitbox = player.get_node("CollisionShape2D")
+
+@onready var forward = sprite.get_node("Forward")
+@onready var forward_origin = sprite.get_node("ForwardOrigin")
+
 @onready var sprt_snap = player.get_node("SpriteSnap")
 @onready var sprt_center = sprt_snap.get_node("SpriteSnapCenter")
 @onready var sprt_left = sprt_snap.get_node("SpriteSnapLeft")
@@ -9,9 +13,8 @@ class_name ActionHandlerTools
 
 var sprite_flipped := false
 var snap_velocity := Vector2.ZERO
-var angle := 0.0
 
-func get_angle():
+func is_ground_ray_collision_successful():
 	if left.is_colliding():
 		last_normal = left.get_collision_normal()
 		if snapped(abs(last_normal.angle_to(player.up_direction)), 0.01) == snapped(PI, 0.01):
@@ -32,26 +35,26 @@ func get_angle():
 		return true
 	return false
 
-func angle_calc():
-	angle = 0.0
-	if get_angle():
-		angle = last_normal.angle_to(Vector2(0, -1))
-		sprite.rotation = -angle
+func ground_collision():
+	var collision_angle = 0.0
+	if is_ground_ray_collision_successful():
+		collision_angle = last_normal.angle_to(Vector2(0, -1))
+		sprite.rotation = -collision_angle
 	else:
 		left.target_position.y = 25
 		right.target_position.y = 25
 		left.force_raycast_update()
 		right.force_raycast_update()
-		if get_angle():
-			angle = last_normal.angle_to(Vector2(0, -1))
-			sprite.rotation = -angle
+		if is_ground_ray_collision_successful():
+			collision_angle = last_normal.angle_to(Vector2(0, -1))
+			sprite.rotation = -collision_angle
 		left.target_position.y = 15
 		right.target_position.y = 15
 		left.force_raycast_update()
 		right.force_raycast_update()
-	return angle
+	return
 
-func wall_velocity_management():
+func manage_wall_velocity():
 	if player_X_velocity > 0 and right_wall.is_colliding():
 		player_X_velocity = 0
 	elif player_X_velocity < 0 and left_wall.is_colliding():
@@ -80,28 +83,28 @@ func flip_gravity():
 	if ground_direction == GroundDirections.RIGHT:
 		raycasts.rotation_degrees = -90
 		raycasts.position.x = -5
-		collider.position.x = -5
+		hitbox.position.x = -5
 		sprt_snap.position.x = -5
-		collider.shape.size.y = 20
-		collider.shape.size.x = 28
+		hitbox.shape.size.y = 20
+		hitbox.shape.size.x = 28
 		sprt_snap.rotation_degrees = -90
 		player.up_direction = Vector2.RIGHT
 	elif ground_direction == GroundDirections.LEFT:
 		raycasts.rotation_degrees = 90
 		raycasts.position.x = 5
-		collider.position.x = 5
+		hitbox.position.x = 5
 		sprt_snap.position.x = 5
-		collider.shape.size.y = 20
-		collider.shape.size.x = 28
+		hitbox.shape.size.y = 20
+		hitbox.shape.size.x = 28
 		sprt_snap.rotation_degrees = 90
 		player.up_direction = Vector2.LEFT
 	elif ground_direction == GroundDirections.DOWN:
 		raycasts.rotation_degrees = 0
 		raycasts.position.x = 0
-		collider.position.x = 0
+		hitbox.position.x = 0
 		sprt_snap.position.x = 0
-		collider.shape.size.y = 28
-		collider.shape.size.x = 20
+		hitbox.shape.size.y = 28
+		hitbox.shape.size.x = 20
 		sprt_snap.rotation_degrees = 0
 		player.up_direction = Vector2.DOWN
 	elif ground_direction == GroundDirections.UP:
@@ -110,10 +113,10 @@ func flip_gravity():
 		else:
 			raycasts.rotation_degrees = 180
 		raycasts.position.x = 0
-		collider.position.x = 0
+		hitbox.position.x = 0
 		sprt_snap.position.x = 0
-		collider.shape.size.y = 28
-		collider.shape.size.x = 20
+		hitbox.shape.size.y = 28
+		hitbox.shape.size.x = 20
 		sprt_snap.rotation_degrees = -180
 		player.up_direction = Vector2.UP
 	for i in raycasts.get_children():
@@ -128,24 +131,14 @@ func on_wall_hit():
 		else:
 			angle_diff = last_normal.angle_to(left_wall.get_collision_normal())
 		if abs(rad_to_deg(angle_diff)) < 85:
-			if ground_direction == GroundDirections.DOWN:
-				if right_wall_colliding:
-					ground_direction = GroundDirections.RIGHT
-				else:
-					ground_direction = GroundDirections.LEFT
-			elif ground_direction == GroundDirections.RIGHT:
-				if right_wall_colliding:
-					ground_direction = GroundDirections.UP
-				else:
-					ground_direction = GroundDirections.DOWN
-			elif ground_direction == GroundDirections.LEFT:
-				if right_wall_colliding:
-					ground_direction = GroundDirections.DOWN
-				else:
-					ground_direction = GroundDirections.UP
-			elif ground_direction == GroundDirections.UP:
-				if right_wall_colliding:
+			if right_wall_colliding:
+				if ground_direction == GroundDirections.UP:
 					ground_direction = GroundDirections.LEFT
 				else:
-					ground_direction = GroundDirections.RIGHT
+					ground_direction += 1
+			else:
+				if ground_direction == GroundDirections.LEFT:
+					ground_direction = GroundDirections.UP
+				else:
+					ground_direction -= 1
 			flip_gravity()

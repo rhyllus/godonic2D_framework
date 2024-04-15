@@ -4,7 +4,7 @@ class_name ActionStateMachine
 enum States {HURT, IDLE, DECEL, WALK, RUN, ROLL,
 			 SPINDASH, PEEL_OUT, POST_PEEL_OUT,
 			 AIR_BALL, AIR}
-enum GroundDirections {UP, DOWN, LEFT, RIGHT}
+enum GroundDirections {LEFT, DOWN, RIGHT, UP}
 @onready var state := States.AIR
 @onready var ground_direction := GroundDirections.DOWN
 
