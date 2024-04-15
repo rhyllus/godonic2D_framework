@@ -13,10 +13,11 @@ enum GroundDirections {UP, DOWN, LEFT, RIGHT}
 @onready var animation_player : AnimationPlayer = sprite.get_node("Sprite2D").get_node("AnimationPlayer")
 
 @onready var raycasts = player.get_node("Raycasts")
-@onready var left = raycasts.get_node("LeftDown")
-@onready var left_snap = raycasts.get_node("LeftDownSnap")
-@onready var right = raycasts.get_node("RightDown")
-@onready var right_snap = raycasts.get_node("RightDownSnap")
+@onready var left = raycasts.get_node("LeftFloor")
+@onready var left_snap = raycasts.get_node("LeftSnap")
+@onready var right = raycasts.get_node("RightFloor")
+@onready var right_snap = raycasts.get_node("RightSnap")
+@onready var center_snap = raycasts.get_node("CenterSnap")
 @onready var right_wall = raycasts.get_node("RightWall")
 @onready var left_wall = raycasts.get_node("LeftWall")
 

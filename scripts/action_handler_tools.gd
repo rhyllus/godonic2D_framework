@@ -63,6 +63,8 @@ func snap():
 		snap_vector = left_snap.get_collision_point() - sprt_left.global_position
 	elif right_snap.is_colliding() and not left.is_colliding():
 		snap_vector = right_snap.get_collision_point() - sprt_right.global_position
+	else:
+		snap_vector = center_snap.get_collision_point() - sprt_center.global_position
 	snap_velocity = snap_vector * get_process_delta_time() * 10000
 
 func sprite_flip():
