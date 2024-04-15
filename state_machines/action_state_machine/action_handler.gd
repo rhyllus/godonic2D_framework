@@ -1,16 +1,7 @@
 extends CollisionUtilities
 class_name ActionHandler
 
-@export var max_velocity := 2000
-@export var acceleration := 1500
-@export var deceleration := 2000
 @onready var normal := Vector2(0, -1)
-
-func velocity_rotate(x_vel : float):
-	var direction = (forward.global_position - forward_origin.global_position).normalized()
-	if sprite_flipped:
-		direction = -direction
-	return x_vel * direction
 
 func horizontal_movement(delta):
 	player_X_velocity = player_X_velocity + (acceleration * delta * horizontal_input)
@@ -20,7 +11,7 @@ func horizontal_movement(delta):
 		animation_player.play("run")
 	manage_wall_velocity()
 	ground_collision()
-	player.velocity = velocity_rotate(player_X_velocity) + snap_velocity
+	player.velocity = rotated_velocity(player_X_velocity) + snap_velocity
 
 func decelerate(delta):
 	player_X_velocity = move_toward(player_X_velocity, 0, deceleration * delta)
@@ -31,7 +22,7 @@ func decelerate(delta):
 		player.velocity = Vector2.ZERO
 	else:
 		ground_collision()
-		player.velocity = velocity_rotate(player_X_velocity) + snap_velocity
+		player.velocity = rotated_velocity(player_X_velocity) + snap_velocity
 
 func roll():
 	pass

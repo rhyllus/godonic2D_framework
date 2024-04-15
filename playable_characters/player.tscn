@@ -301,6 +301,9 @@ script = ExtResource("2_147ld")
 
 [node name="ActionStateMachine" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("4_1nlkt")
+max_velocity = null
+acceleration = null
+deceleration = null
 player = NodePath("../../CharacterBody2D")
 sprite = NodePath("../../CharacterBody2D/SpritePivot")
 

@@ -11,6 +11,10 @@ class_name ActionHandlerTools
 @onready var sprt_left = sprt_snap.get_node("SpriteSnapLeft")
 @onready var sprt_right = sprt_snap.get_node("SpriteSnapRight")
 
+@export var max_velocity := 2000
+@export var acceleration := 1500
+@export var deceleration := 2000
+
 var sprite_flipped := false
 var snap_velocity := Vector2.ZERO
 
@@ -28,3 +32,9 @@ func sprite_flip():
 		else:
 			sprite_flipped = true
 			sprite.scale.x = -1
+			
+func rotated_velocity(x_vel : float):
+	var direction = (forward.global_position - forward_origin.global_position).normalized()
+	if sprite_flipped:
+		direction = -direction
+	return x_vel * direction
